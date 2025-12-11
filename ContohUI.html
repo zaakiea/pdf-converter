@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure PDF Converter & Editor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset & Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .main-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            font-size: 1.8rem;
+            color: #3498db;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .logo span {
+            color: #3498db;
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            opacity: 0.9;
+            transition: opacity 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links a:hover {
+            opacity: 1;
+            color: #3498db;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+            border: 1px solid #e0e6ed;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .feature-card h3 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .feature-card p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* Main Card */
+        .main-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+        }
+
+        .card-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .card-header p {
+            opacity: 0.9;
+            margin-top: 0.5rem;
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #e0e6ed;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            background: none;
+            border: none;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tab-btn:hover {
+            color: #3498db;
+        }
+
+        .tab-btn.active {
+            color: #3498db;
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #3498db;
+            border-radius: 3px 3px 0 0;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Upload Area */
+        .upload-area {
+            border: 2px dashed #3498db;
+            border-radius: 12px;
+            padding: 3rem 2rem;
+            text-align: center;
+            background: #f8fafc;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+        }
+
+        .upload-area:hover {
+            border-color: #2980b9;
+            background: #f0f7ff;
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: #3498db;
+            margin-bottom: 1rem;
+        }
+
+        .upload-area h3 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-area p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #2980b9 0%, #2573a7 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn-secondary {
+            background: #ecf0f1;
+            color: #2c3e50;
+        }
+
+        .btn-secondary:hover {
+            background: #dfe6e9;
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
+        .btn-success {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #229954;
+        }
+
+        /* File List */
+        .file-list {
+            margin: 1.5rem 0;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            border-left: 4px solid #3498db;
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .file-icon {
+            font-size: 1.5rem;
+            color: #3498db;
+        }
+
+        .file-details h4 {
+            color: #2c3e50;
+            margin-bottom: 0.25rem;
+            font-size: 1rem;
+        }
+
+        .file-details p {
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        /* Options */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .option-card {
+            border: 2px solid #e0e6ed;
+            border-radius: 10px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .option-card:hover {
+            border-color: #3498db;
+            background: #f8fafc;
+        }
+
+        .option-card.selected {
+            border-color: #3498db;
+            background: #e8f4fc;
+        }
+
+        .option-icon {
+            font-size: 2rem;
+            color: #3498db;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Security Options */
+        .security-options {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border: 1px solid #e0e6ed;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .action-buttons .btn {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin: 2rem 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #ecf0f1;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3498db 0%, #2ecc71 100%);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        .main-footer {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+            font-size: 0.9rem;
+            background: #2c3e50;
+            color: white;
+            margin-top: 3rem;
+        }
+
+        .main-footer p {
+            opacity: 0.8;
+        }
+
+        /* Utility Classes */
+        .hidden {
+            display: none !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mb-1 { margin-bottom: 1rem; }
+        .mb-2 { margin-bottom: 2rem; }
+        .mt-1 { margin-top: 1rem; }
+        .mt-2 { margin-top: 2rem; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-btn {
+                justify-content: center;
+                border-bottom: 1px solid #e0e6ed;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .action-buttons .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div>
+                    <h1>Secure <span>PDF Converter</span></h1>
+                    <p style="font-size: 0.9rem; opacity: 0.8;">By Kelompok 6 - PBO C</p>
+                </div>
+            </div>
+            <nav class="nav-links">
+                <a href="#home"><i class="fas fa-home"></i> Beranda</a>
+                <a href="#features"><i class="fas fa-star"></i> Fitur</a>
+                <a href="#help"><i class="fas fa-question-circle"></i> Bantuan</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Features Overview -->
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+                <h3>Konversi Dasar</h3>
+                <p>Ubah Word, Excel, dan Gambar menjadi PDF dengan kualitas tinggi</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-eye"></i>
+                </div>
+                <h3>Sistem Cerdas (OCR)</h3>
+                <p>Ekstrak teks dari gambar pindaian untuk PDF yang dapat dicari</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-object-group"></i>
+                </div>
+                <h3>Manipulasi PDF</h3>
+                <p>Gabungkan (Merge) atau pisahkan (Split) file PDF dengan mudah</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h3>Keamanan & Privasi</h3>
+                <p>Enkripsi AES-256 dan penghapusan otomatis file setelah diproses</p>
+            </div>
+        </div>
+
+        <!-- Main Card -->
+        <div class="main-card">
+            <div class="card-header">
+                <h2><i class="fas fa-cogs"></i> Secure PDF Converter & Editor</h2>
+                <p>Unggah file Anda dan pilih operasi yang diinginkan</p>
+            </div>
+            
+            <div class="card-body">
+                <!-- Tabs Navigation -->
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="switchTab('convert')">
+                        <i class="fas fa-exchange-alt"></i> Konversi
+                    </button>
+                    <button class="tab-btn" onclick="switchTab('ocr')">
+                        <i class="fas fa-eye"></i> OCR
+                    </button>
+                    <button class="tab-btn" onclick="switchTab('merge')">
+                        <i class="fas fa-object-group"></i> Merge
+                    </button>
+                    <button class="tab-btn" onclick="switchTab('split')">
+                        <i class="fas fa-cut"></i> Split
+                    </button>
+                </div>
+
+                <!-- Upload Area -->
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <h3>Unggah File Anda</h3>
+                    <p>Drag & drop file atau klik untuk memilih</p>
+                    <p style="font-size: 0.9rem; color: #666;">Format yang didukung: PDF, DOCX, XLSX, JPG, PNG</p>
+                    <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
+                        <i class="fas fa-folder-open"></i> Pilih File
+                    </button>
+                    <input type="file" id="fileInput" class="hidden" multiple>
+                </div>
+
+                <!-- File List -->
+                <div class="file-list" id="fileList"></div>
+
+                <!-- Tab Contents -->
+                <!-- Convert Tab -->
+                <div id="convertTab" class="tab-content active">
+                    <h3 class="mb-2">Konversi PDF</h3>
+                    <div class="options-grid">
+                        <div class="option-card" onclick="selectFormat('docx')">
+                            <div class="option-icon">
+                                <i class="far fa-file-word"></i>
+                            </div>
+                            <h4>PDF ke Word</h4>
+                            <p>Konversi PDF dokumen .docx</p>
+                        </div>
+                        <div class="option-card" onclick="selectFormat('xlsx')">
+                            <div class="option-icon">
+                                <i class="far fa-file-excel"></i>
+                            </div>
+                            <h4>PDF ke Excel</h4>
+                            <p>Konversi PDF ke spreadsheet .xlsx</p>
+                        </div>
+                        <div class="option-card" onclick="selectFormat('image')">
+                            <div class="option-icon">
+                                <i class="far fa-image"></i>
+                            </div>
+                            <h4>PDF ke Gambar</h4>
+                            <p>Konversi PDF ke JPG/PNG</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- OCR Tab -->
+                <div id="ocrTab" class="tab-content">
+                    <h3 class="mb-2">Optical Character Recognition (OCR)</h3>
+                    <p>Ekstrak teks dari gambar atau PDF pindaian menjadi PDF yang dapat dicari dan diedit</p>
+                    
+                    <div class="security-options mt-2">
+                        <h4><i class="fas fa-sliders-h"></i> Pengaturan OCR</h4>
+                        <div class="form-group">
+                            <label for="ocrLanguage">Bahasa Teks</label>
+                            <select id="ocrLanguage" class="form-control">
+                                <option value="id">Bahasa Indonesia</option>
+                                <option value="en">English</option>
+                                <option value="multi">Multi-language</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="ocrAccuracy">Akurasi OCR</label>
+                            <select id="ocrAccuracy" class="form-control">
+                                <option value="high">Tinggi (Lebih Lambat)</option>
+                                <option value="medium" selected>Sedang (Rekomendasi)</option>
+                                <option value="fast">Cepat</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Merge Tab -->
+                <div id="mergeTab" class="tab-content">
+                    <h3 class="mb-2">Gabungkan PDF</h3>
+                    <p>Pilih urutan file untuk digabungkan menjadi satu dokumen PDF</p>
+                    
+                    <div class="file-list" id="mergeFileList"></div>
+                    
+                    <div class="mt-2">
+                        <button class="btn btn-secondary" onclick="reorderFile('up')">
+                            <i class="fas fa-arrow-up"></i> Naikkan
+                        </button>
+                        <button class="btn btn-secondary" onclick="reorderFile('down')">
+                            <i class="fas fa-arrow-down"></i> Turunkan
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Split Tab -->
+                <div id="splitTab" class="tab-content">
+                    <h3 class="mb-2">Pisahkan PDF</h3>
+                    <p>Pilih halaman yang ingin dipisahkan dari dokumen PDF</p>
+                    
+                    <div class="security-options mt-2">
+                        <div class="form-group">
+                            <label for="splitMode">Mode Pemotongan</label>
+                            <select id="splitMode" class="form-control" onchange="updateSplitOptions()">
+                                <option value="range">Berdasarkan Rentang Halaman</option>
+                                <option value="single">Setiap Halaman Terpisah</option>
+                                <option value="custom">Halaman Kustom</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="pageRange">Rentang Halaman</label>
+                            <input type="text" id="pageRange" class="form-control" placeholder="Contoh: 1-5, 8, 10-12">
+                            <small>Gunakan koma untuk memisahkan rentang (misal: 1-3, 5, 7-9)</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Security Options -->
+                <div class="security-options">
+                    <h4><i class="fas fa-lock"></i> Opsi Keamanan</h4>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="enablePassword"> Tambahkan Password
+                        </label>
+                    </div>
+                    <div id="passwordFields" class="hidden">
+                        <div class="form-group">
+                            <label for="pdfPassword">Password PDF</label>
+                            <input type="password" id="pdfPassword" class="form-control" placeholder="Masukkan password">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Konfirmasi Password</label>
+                            <input type="password" id="confirmPassword" class="form-control" placeholder="Ulangi password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="autoDelete" checked> Hapus file otomatis setelah 5 menit
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="progress-container hidden" id="progressContainer">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span id="progressText">Memproses...</span>
+                        <span id="progressPercent">0%</span>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" onclick="clearAllFiles()">
+                        <i class="fas fa-trash"></i> Hapus Semua
+                    </button>
+                    <button class="btn btn-primary" onclick="processFiles()" id="processBtn">
+                        <i class="fas fa-play"></i> Mulai Proses
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Info -->
+        <div class="main-card mt-2">
+            <div class="card-body">
+                <h3><i class="fas fa-info-circle"></i> Informasi Sistem</h3>
+                <div class="features-grid mt-2">
+                    <div class="feature-card">
+                        <i class="fas fa-microchip"></i>
+                        <h4>Arsitektur OOP</h4>
+                        <p>Menggunakan Inheritance, Polymorphism, Abstraction, dan Encapsulation</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <h4>Performansi</h4>
+                        <p>Merge 5 file dalam &lt; 10 detik, akurasi OCR minimal 90%</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-shield-alt"></i>
+                        <h4>Keamanan</h4>
+                        <p>Enkripsi AES-256 dan penghapusan file otomatis</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <p>© 2023 Secure PDF Converter & Editor - DPPL PBO C</p>
+            <p>Dikembangkan oleh: Bimo Kusumo Putro W. | Dzaki Eka Atmaja | M. Adnan Abdur Rafi'a</p>
+            <p>Departemen Teknik Komputer - Fakultas Teknik - Universitas Diponegoro</p>
+        </div>
+    </footer>
+
+    <script>
+        // State management
+        let uploadedFiles = [];
+        let currentTab = 'convert';
+        let selectedFormat = '';
+        let selectedFilesForMerge = [];
+        let selectedFileForSplit = null;
+        let currentOperation = 'convert';
+
+        // DOM Elements
+        const fileInput = document.getElementById('fileInput');
+        const uploadArea = document.getElementById('uploadArea');
+        const passwordFields = document.getElementById('passwordFields');
+        const enablePassword = document.getElementById('enablePassword');
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set up event listeners
+            enablePassword.addEventListener('change', () => {
+                passwordFields.classList.toggle('hidden', !enablePassword.checked);
+            });
+
+            // Drag and drop
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, preventDefaults, false);
+            });
+
+            uploadArea.addEventListener('dragover', () => {
+                uploadArea.style.borderColor = '#2980b9';
+                uploadArea.style.background = '#f0f7ff';
+            });
+
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.style.borderColor = '#3498db';
+                uploadArea.style.background = '#f8fafc';
+            });
+
+            uploadArea.addEventListener('drop', handleDrop);
+
+            fileInput.addEventListener('change', handleFileSelect);
+        });
+
+        // Utility functions
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        function handleDrop(e) {
+            uploadArea.style.borderColor = '#3498db';
+            uploadArea.style.background = '#f8fafc';
+            const files = e.dataTransfer.files;
+            addFiles(files);
+        }
+
+        function handleFileSelect(e) {
+            addFiles(e.target.files);
+        }
+
+        function addFiles(files) {
+            Array.from(files).forEach(file => {
+                const allowedTypes = [
+                    'application/pdf',
+                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                    'image/jpeg',
+                    'image/png'
+                ];
+
+                if (allowedTypes.includes(file.type)) {
+                    uploadedFiles.push({
+                        name: file.name,
+                        size: formatFileSize(file.size),
+                        type: file.type,
+                        file: file,
+                        id: Date.now() + Math.random()
+                    });
+                } else {
+                    alert(`File ${file.name} tidak didukung. Hanya PDF, DOCX, XLSX, JPG, PNG yang diperbolehkan.`);
+                }
+            });
+            updateFileList();
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            else if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+            else return (bytes / 1048576).toFixed(1) + ' MB';
+        }
+
+        function updateFileList() {
+            const fileList = document.getElementById('fileList');
+            
+            if (uploadedFiles.length > 0) {
+                fileList.innerHTML = uploadedFiles.map((file, index) => `
+                    <div class="file-item">
+                        <div class="file-info">
+                            <div class="file-icon">
+                                ${getFileIcon(file.type)}
+                            </div>
+                            <div class="file-details">
+                                <h4>${file.name}</h4>
+                                <p>${file.size} • ${getFileTypeName(file.type)}</p>
+                            </div>
+                        </div>
+                        <button class="btn btn-danger" onclick="removeFile(${index})">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                `).join('');
+            } else {
+                fileList.innerHTML = '<p class="text-center">Belum ada file diunggah</p>';
+            }
+        }
+
+        function getFileIcon(fileType) {
+            if (fileType.includes('pdf')) return '<i class="far fa-file-pdf"></i>';
+            if (fileType.includes('word') || fileType.includes('docx')) return '<i class="far fa-file-word"></i>';
+            if (fileType.includes('excel') || fileType.includes('xlsx')) return '<i class="far fa-file-excel"></i>';
+            if (fileType.includes('image')) return '<i class="far fa-image"></i>';
+            return '<i class="far fa-file"></i>';
+        }
+
+        function getFileTypeName(fileType) {
+            if (fileType.includes('pdf')) return 'PDF';
+            if (fileType.includes('word') || fileType.includes('docx')) return 'Word';
+            if (fileType.includes('excel') || fileType.includes('xlsx')) return 'Excel';
+            if (fileType.includes('jpeg') || fileType.includes('jpg')) return 'JPG';
+            if (fileType.includes('png')) return 'PNG';
+            return 'File';
+        }
+
+        function removeFile(index) {
+            uploadedFiles.splice(index, 1);
+            updateFileList();
+        }
+
+        function clearAllFiles() {
+            uploadedFiles = [];
+            updateFileList();
+            fileInput.value = '';
+        }
+
+        // Tab switching
+        function switchTab(tabName) {
+            currentTab = tabName;
+            
+            // Update active tab button
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+            
+            // Update active tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(`${tabName}Tab`).classList.add('active');
+            
+            // Update process button text
+            const processBtn = document.getElementById('processBtn');
+            const icon = '<i class="fas fa-play"></i> ';
+            
+            switch(tabName) {
+                case 'convert':
+                    processBtn.innerHTML = icon + 'Mulai Konversi';
+                    currentOperation = 'convert';
+                    break;
+                case 'ocr':
+                    processBtn.innerHTML = icon + 'Mulai OCR';
+                    currentOperation = 'ocr';
+                    break;
+                case 'merge':
+                    processBtn.innerHTML = icon + 'Mulai Merge';
+                    currentOperation = 'merge';
+                    break;
+                case 'split':
+                    processBtn.innerHTML = icon + 'Mulai Split';
+                    currentOperation = 'split';
+                    break;
+            }
+        }
+
+        // Format selection for conversion
+        function selectFormat(format) {
+            selectedFormat = format;
+            
+            // Update UI
+            document.querySelectorAll('.option-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+        }
+
+        // Process files based on current operation
+        function processFiles() {
+            if (uploadedFiles.length === 0) {
+                alert('Silakan unggah file terlebih dahulu!');
+                return;
+            }
+
+            if (currentOperation === 'convert' && !selectedFormat) {
+                alert('Silakan pilih format konversi!');
+                return;
+            }
+
+            // Show progress bar
+            const progressContainer = document.getElementById('progressContainer');
+            const progressFill = document.getElementById('progressFill');
+            const progressPercent = document.getElementById('progressPercent');
+            const progressText = document.getElementById('progressText');
+            
+            progressContainer.classList.remove('hidden');
+            
+            // Simulate processing
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 10;
+                progressFill.style.width = `${progress}%`;
+                progressPercent.textContent = `${progress}%`;
+                
+                switch(currentOperation) {
+                    case 'convert':
+                        progressText.textContent = 'Mengonversi file...';
+                        break;
+                    case 'ocr':
+                        progressText.textContent = 'Memproses OCR...';
+                        break;
+                    case 'merge':
+                        progressText.textContent = 'Menggabungkan file...';
+                        break;
+                    case 'split':
+                        progressText.textContent = 'Memisahkan halaman...';
+                        break;
+                }
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    
+                    // Show completion message
+                    setTimeout(() => {
+                        const operationNames = {
+                            'convert': 'Konversi',
+                            'ocr': 'OCR',
+                            'merge': 'Merge',
+                            'split': 'Split'
+                        };
+                        
+                        alert(`${operationNames[currentOperation]} selesai! File Anda telah diproses.`);
+                        
+                        // Reset
+                        progressContainer.classList.add('hidden');
+                        progressFill.style.width = '0%';
+                        
+                        // Clear files if auto-delete is enabled
+                        if (document.getElementById('autoDelete').checked) {
+                            clearAllFiles();
+                        }
+                    }, 500);
+                }
+            }, 300);
+        }
+
+        // Split options
+        function updateSplitOptions() {
+            const splitMode = document.getElementById('splitMode').value;
+            const pageRange = document.getElementById('pageRange');
+            
+            if (splitMode === 'single') {
+                pageRange.value = 'Setiap halaman terpisah';
+                pageRange.disabled = true;
+            } else if (splitMode === 'range') {
+                pageRange.value = '1-';
+                pageRange.disabled = false;
+            } else {
+                pageRange.value = '';
+                pageRange.disabled = false;
+            }
+        }
+
+        // Reorder files for merge
+        function reorderFile(direction) {
+            // Implementation for reordering files in merge
+            console.log(`Move file ${direction}`);
+        }
+    </script>
+</body>
+</html>
